@@ -1276,6 +1276,7 @@ class MyComponent extends React.Component {
   }
   render() {
     //  当组件插入到 DOM 后，ref 属性添加一个组件的引用于到 this.refs
+    // 添加的测试文字，提交到GitHub上去。
     return (
       <div>
         <input type="text" ref="myInput" />
