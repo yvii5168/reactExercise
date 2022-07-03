@@ -21,6 +21,12 @@ class LoginStore {
     // 在本地localStorage中保存token
     setToken(res.data.token)
   }
+
+  // 退出登录
+  loginOut = () => {
+    this.token = ''
+    clearToken()
+  }
 }
 
 export default LoginStore

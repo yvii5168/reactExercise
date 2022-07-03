@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { AuthRoute } from '@/components/AuthRoute'
+import { HistoryRouter, history } from '@/utils/history'
 // 导入页面组件
 import Login from './pages/Login'
 import Layout from './pages/Layout'
@@ -9,7 +10,8 @@ import Article from './pages/Article'
 
 export default function App () {
 	return (
-		<BrowserRouter>
+		<HistoryRouter history={history}>
+			{/* <BrowserRouter> */}
 			<div className="App">
 				<Routes>
 					{/* 需要鉴定权限的路由 */}
@@ -27,6 +29,7 @@ export default function App () {
 					<Route path='/login' element={<Login />} />
 				</Routes>
 			</div>
-		</BrowserRouter>
+			{/* </BrowserRouter> */}
+		</HistoryRouter>
 	)
 }
