@@ -15,8 +15,6 @@ class LoginStore {
       mobile,
       code
     })
-    console.log(res.data)
-
     this.token = res.data.token
     // 在本地localStorage中保存token
     setToken(res.data.token)

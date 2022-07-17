@@ -61,7 +61,7 @@ const Article = () => {
               type="primary"
               shape="circle"
               icon={<EditOutlined />}
-              onClick={() => history.push(`/home/publish?id=${data.id}`)}
+              onClick={() => history.push(`/publish?id=${data.id}`)}
             />
             <Popconfirm
               title="确认删除该条文章吗?"
@@ -115,9 +115,11 @@ const Article = () => {
     const _params = {}
     // 格式化status
     _params.status = status
-    if (channel_id) {
-      _params.channel_id = channel_id
-    }
+    // 不支持清空操作，故去除判断条件
+    // if (channel_id) {
+    //   _params.channel_id = channel_id
+    // }
+    _params.channel_id = channel_id
     if (date) {
       _params.begin_pubdate = date[0].format('YYYY-MM-DD')
       _params.end_pubdate = date[1].format('YYYY-MM-DD')
@@ -199,7 +201,10 @@ const Article = () => {
           </Form.Item>
 
           <Form.Item label="频道" name="channel_id" >
-            <Select placeholder="请选择文章频道" style={{ width: 200 }} >
+            <Select placeholder="请选择文章频道"
+              style={{ width: 200 }}
+              allowClear={true}
+            >
               {channels.map(item => (
                 <Option key={item.id} value={item.id}>
                   {item.name}
