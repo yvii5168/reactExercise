@@ -6,20 +6,44 @@ import {
   LogoutOutlined
 } from '@ant-design/icons'
 import './index.scss'
-import { Routes, Link, Outlet, useLocation } from 'react-router-dom'
+import { Routes, Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
+import { observer } from 'mobx-react-lite'
+import { useStore } from '@/store'
 
 const { Header, Sider } = Layout
 
-const GeekLayout = (selectedKey) => {
-  const { pathname } = useLocation()
+const GeekLayout = () => {
+  const location = useLocation()
+  const selectedKey = location.pathname
+  const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+  const { userStore, loginStore } = useStore()
+  // 获取用户数据
+  useEffect(() => {
+    try {
+      userStore.getUserInfo()
+    } catch { }
+  }, [userStore])
+
+  // login out
+  const navigate = useNavigate()
+  const onLogOut = () => {
+    loginStore.loginOut()
+    navigate('/login')
+  }
   return (
     <Layout>
       <Header className="header">
         <div className="logo" />
         <div className="user-info">
-          <span className="user-name">user.name</span>
+          <span className="user-name">
+            {userStore.userInfo.name}
+            == {userInfo.name}
+          </span>
           <span className="user-logout">
-            <Popconfirm title="是否确认退出？" okText="退出" cancelText="取消">
+            <Popconfirm title="是否确认退出？" okText="退出" cancelText="取消"
+              onConfirm={onLogOut}
+            >
               <LogoutOutlined /> 退出
             </Popconfirm>
           </span>
@@ -30,8 +54,7 @@ const GeekLayout = (selectedKey) => {
           <Menu
             mode="inline"
             theme="dark"
-            defaultSelectedKeys={pathname}
-            selectedKeys={pathname}
+            selectedKeys={[selectedKey]}
             style={{ height: '100%', borderRight: 0 }}
           >
             <Menu.Item icon={<HomeOutlined />} key="/">
